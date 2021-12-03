@@ -1,0 +1,65 @@
+<!--read.ejs-->
+<table class="table is-bordered is-striped is-hoverable is-fullwidth">
+  <tr>
+    <th>ID</th>
+    <td><%= event.id %></td>
+  </tr>
+  <tr>
+    <th>CreatedAt</th>
+    <td><%= event.createdAt %></td>
+  </tr>
+  <tr>
+    <th>UpdatedAt</th>
+    <td><%= event.updatedAt %></td>
+  </tr>
+  <tr>
+    <th>Eventname</th>
+    <td><%= event.eventname %></td>
+  </tr>
+  <tr>
+    <th>shortdescription</th>
+    <td><%= event.shortdescription %></td>
+  </tr>
+  <tr>
+    <th>longdescription</th>
+    <td><%= event.longdescription %></td>
+  </tr>
+  <tr>
+    <th>imageurl</th>
+    <td><%= event.imageurl %></td>
+  </tr>
+  <tr>
+    <th>organizer</th>
+    <td><%= event.organizer %></td>
+  </tr>
+  <tr>
+    <th>eventdate</th>
+    <td><%= event.eventdate %></td>
+  </tr>
+  <tr>
+    <th>starttime</th>
+    <td><%= event.starttime %></td>
+  </tr>
+  <tr>
+    <th>endtime</th>
+    <td><%= event.endtime %></td>
+  </tr>
+  <tr>
+    <th>venue</th>
+    <td><%= event.venue %></td>
+  </tr>
+  <tr>
+    <th>quota</th>
+    <td><%= event.quota %></td>
+  </tr>
+  <tr>
+    <th>highlightevent</th>
+    <td><%= event.highlightevent %></td>
+  </tr>
+</table>
+<a
+  class="button is-primary"
+  href="http://localhost:1337/event/update/<%= event.id %>"
+>
+  Update Event</a
+>

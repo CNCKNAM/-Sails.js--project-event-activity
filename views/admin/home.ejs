@@ -1,0 +1,57 @@
+<!--admin.ejs-->
+<table class="table is-bordered is-striped is-hoverable is-fullwidth">
+  <tr>
+    <th>ID</th>
+    <th>Event</th>
+    <th>Organizer</th>
+    <th>Registered Students</th>
+  </tr>
+  <% events.forEach( function(event) { %>
+
+  <tr>
+    <td><%= event.id %></td>
+    <td>
+      <a
+        class="title is-6"
+        style="color: #6a7dce"
+        href="http://localhost:1337/event/read/<%= event.id %>"
+        ><%= event.eventname %></a
+      >
+    </td>
+    <td><%= event.organizer %></td>
+    <td>
+      <a
+        class="title is-6"
+        style="color: #6a7dce"
+        href="http://localhost:1337/event/<%= event.id %>/participants"
+        ><%= event.eventname %></a
+      >
+    </td>
+    <td>
+      <a
+        class="button is-primary"
+        href="http://localhost:1337/event/update/<%= event.id %>"
+      >
+        Update Event</a
+      >
+    </td>
+    <td>
+      <a
+        class="button is-danger"
+        href="http://localhost:1337/event/delete/<%= event.id %>"
+      >
+        Delete</a
+      >
+    </td>
+    <td>
+      <a
+        class="button is-info"
+        href="http://localhost:1337/event/read/<%= event.id %>"
+      >
+        Details</a
+      >
+    </td>
+  </tr>
+
+  <% }); %>
+</table>

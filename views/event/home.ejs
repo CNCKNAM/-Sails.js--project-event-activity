@@ -1,0 +1,30 @@
+<!--home.ejs-->
+<div class="columns is-multiline" style="border-style: outset">
+  <% events.forEach( function(event) { %>
+  <div class="column is-half" style="border-style: outset">
+    <div class="columns is-multiline">
+      <div class="column is-half">
+        <img
+          src="<%= event.imageurl %>"
+          alt="Girl in a jacket"
+          width="100%"
+          height="auto"
+        />
+      </div>
+      <div class="column is-half">
+        <div class="box">
+          <a
+            class="title is-6"
+            href="http://localhost:1337/detail/<%= event.id %>"
+            ><%= event.eventname %>
+        </div>
+        <a
+          style="color: #7689d3"
+          href="http://localhost:1337/detail/<%= event.id %>"
+          ><%= event.shortdescription %></a
+        >
+      </div>
+    </div>
+  </div>
+  <% }); %>
+</div>

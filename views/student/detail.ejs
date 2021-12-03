@@ -1,0 +1,118 @@
+<!--read.ejs-->
+<table class="table is-bordered is-striped is-hoverable is-fullwidth">
+  <tr>
+    <th>ID</th>
+    <td><%= event.id %></td>
+  </tr>
+  <tr>
+    <th>CreatedAt</th>
+    <td><%= event.createdAt %></td>
+  </tr>
+  <tr>
+    <th>UpdatedAt</th>
+    <td><%= event.updatedAt %></td>
+  </tr>
+  <tr>
+    <th>Eventname</th>
+    <td><%= event.eventname %></td>
+  </tr>
+  <tr>
+    <th>shortdescription</th>
+    <td><%= event.shortdescription %></td>
+  </tr>
+  <tr>
+    <th>longdescription</th>
+    <td><%= event.longdescription %></td>
+  </tr>
+  <tr>
+    <th>imageurl</th>
+    <td><%= event.imageurl %></td>
+  </tr>
+  <tr>
+    <th>organizer</th>
+    <td><%= event.organizer %></td>
+  </tr>
+  <tr>
+    <th>eventdate</th>
+    <td><%= event.eventdate %></td>
+  </tr>
+  <tr>
+    <th>starttime</th>
+    <td><%= event.starttime %></td>
+  </tr>
+  <tr>
+    <th>endtime</th>
+    <td><%= event.endtime %></td>
+  </tr>
+  <tr>
+    <th>venue</th>
+    <td><%= event.venue %></td>
+  </tr>
+  <tr>
+    <th>quota</th>
+    <td><%= event.quota %></td>
+  </tr>
+  <tr>
+    <th>highlightevent</th>
+    <td><%= event.highlightevent %></td>
+  </tr>
+</table>
+<button
+  onclick="joincancelfunc()"
+  value="true"
+  id="joincancelbutton"
+  class="button is-primary"
+>
+  Join Event
+</button>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+  var checkifreg = "<%= checkifreg %>";
+  var checkiflogin = "<%= req.session.userid %>";
+  console.log(checkifreg);
+  var varjoincancelbutton = document.getElementById("joincancelbutton");
+  if (checkifreg == "true") {
+    varjoincancelbutton.innerHTML = "Cancel Event";
+    varjoincancelbutton.value = "false";
+  }
+
+  async function joincancelfunc() {
+    if (varjoincancelbutton.value == "true" && checkiflogin != "") {
+      try {
+        var response = $.ajax({
+          type: "POST",
+          url: "http://localhost:1337/user/regevents/add/<%= event.id %>",
+        })
+          .success(function () {
+            varjoincancelbutton.innerHTML = "Cancel Event";
+            varjoincancelbutton.value = "false";
+            alert("You have joined event");
+          })
+          .error(function () {
+            alert("error in add");
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    } else if (varjoincancelbutton.value == "false" && checkiflogin != "") {
+      try {
+        var response = $.ajax({
+          type: "POST",
+          url: "http://localhost:1337/user/regevents/remove/<%= event.id %>",
+        })
+          .success(function () {
+            varjoincancelbutton.innerHTML = "Join Event";
+            varjoincancelbutton.value = "true";
+            alert("You have cancelled event");
+          })
+          .error(function () {
+            alert("error in remove");
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    } else if (checkiflogin == "") {
+      alert("You have to login");
+    }
+  }
+</script>

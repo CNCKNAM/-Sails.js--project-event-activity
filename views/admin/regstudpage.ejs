@@ -1,0 +1,14 @@
+<table class="table is-bordered is-striped is-hoverable is-fullwidth">
+  <tr>
+    <th>ID</th>
+    <th>Student Name</th>
+  </tr>
+  <% participants.forEach( function(participant) { %>
+
+  <tr>
+    <td><%= participant.id%></td>
+    <td><%= participant.username %></td>
+  </tr>
+
+  <% }); %>
+</table>

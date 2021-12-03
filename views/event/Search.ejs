@@ -1,0 +1,193 @@
+<!--paginate.ejs-->
+<div class="columns is-multiline">
+  <div class="column is-half">
+    <table
+      class="table is-bordered is-striped is-hoverable is-fullwidth"
+      style="width: 100%"
+    >
+      <tr>
+        <% events.forEach( function(event) { %>
+        <td style="height: 100%; width: 50%">
+          <div class="card$card-background-hsl(0, 0%, 0%)">
+            <div class="card-image">
+              <figure class="image is-4by3">
+                <img src="<%= event.imageurl %>" alt="Placeholder image" />
+              </figure>
+            </div>
+            <div class="card-content">
+              <div class="media">
+                <div class="media-left">
+                  <figure class="image is-48x48">
+                    <img
+                      src="https://bulma.io/images/placeholders/96x96.png"
+                      alt="Placeholder image"
+                    />
+                  </figure>
+                </div>
+                <div class="media-content">
+                  <a
+                    class="title is-4"
+                    href="http://localhost:1337/detail/<%= event.id %>"
+                    ><%= event.eventname %></a
+                  ><br />
+                  <p class="subtitle is-6"><%= event.organizer %></p>
+                </div>
+              </div>
+
+              <div class="content">
+                <p><%= event.shortdescription %></p>
+                <p><%= event.eventdate %></p>
+                <time datetime="<%= event.starttime %>"
+                  ><%= event.starttime %> -
+                </time>
+                <time datetime="<%= event.endtime %>"
+                  ><%= event.endtime %></time
+                >
+              </div>
+            </div>
+          </div>
+        </td>
+        <% }); %>
+      </tr>
+    </table>
+    <nav class="pagination" role="navigation" aria-label="pagination">
+      <a class="pagination-previous" id="previousButton">Previous</a>
+      <a class="pagination-next" id="nextButton">Next page</a>
+      <ul class="pagination-list">
+        <li>
+          <a class="pagination-link" id="firstLink">1</a>
+        </li>
+        <li>
+          <span class="pagination-ellipsis">&hellip;</span>
+        </li>
+        <li>
+          <a class="pagination-link" id="previousLink">45</a>
+        </li>
+        <li>
+          <a class="pagination-link is-current" id="currentLink">46</a>
+        </li>
+        <li>
+          <a class="pagination-link" id="nextLink">47</a>
+        </li>
+        <li>
+          <span class="pagination-ellipsis">&hellip;</span>
+        </li>
+        <li>
+          <a class="pagination-link" id="lastLink">86</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div class="column is-half">
+    <form action="/event/search" method="get" id="event">
+      <div class="field">
+        <label class="label">Event Name</label>
+        <div class="control">
+          <input
+            class="input"
+            type="text"
+            name="eventname"
+            placeholder="Text input"
+            required
+          />
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Organizer</label>
+        <div class="control">
+          <div class="select">
+            <select name="organizer">
+              <option>Select dropdown</option>
+              <option value="Music Society">Music Society</option>
+              <option value="Department of Computer Science">
+                Department of Computer Science
+              </option>
+              <option value="Student Union">Student Union</option>
+              <option value="Registry">Registry</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Start Time</label>
+        <div class="control">
+          <input class="input" type="time" name="starttime" required />
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">End Time</label>
+        <div class="control">
+          <input class="input" type="time" name="endtime" required />
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Venue</label>
+        <div class="control">
+          <div class="select">
+            <select name="venue">
+              <option value="2021 Singing Contest">2021 Singing Contest</option>
+              <option value="Career talk(IT industry)">
+                Career talk(IT industry)
+              </option>
+              <option value="Leadership Programme">Leadership Programme</option>
+              <option value="Computer Science Oday">
+                Computer Science Oday
+              </option>
+              <option value="CV Writing Workshop">CV Writing Workshop</option>
+              <option value="Visit to MTR">Visit to MTR</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <button class="button is-link" type="submit">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+  function buildLinks() {
+    var previousButton = document.getElementById("previousButton");
+    var nextButton = document.getElementById("nextButton");
+    var currentLink = document.getElementById("currentLink");
+    var previousLink = document.getElementById("previousLink");
+    var nextLink = document.getElementById("nextLink");
+    var firstLink = document.getElementById("firstLink");
+    var lastLink = document.getElementById("lastLink");
+
+    var total = parseInt("<%= total %>");
+    var perPage = Math.max(parseInt("<%= req.query.perPage %>"), 2) || 2;
+    var current = Math.max(parseInt("<%= req.query.current %>"), 1) || 1;
+
+    var baseUrl = "/event/search?perPage=" + perPage + "&current=";
+
+    firstLink.href = baseUrl + 1;
+    previousButton.href = baseUrl + (current - 1);
+    previousLink.href = baseUrl + (current - 1);
+    currentLink.href = baseUrl + current;
+    nextLink.href = baseUrl + (current + 1);
+    nextButton.href = baseUrl + (current + 1);
+    lastLink.href = baseUrl + Math.ceil(total / perPage);
+
+    previousLink.innerHTML = current - 1;
+    currentLink.innerHTML = current;
+    nextLink.innerHTML = current + 1;
+    lastLink.innerHTML = Math.ceil(total / perPage);
+
+    if (current <= 1) {
+      previousButton.setAttribute("disabled", true);
+      previousButton.href = "";
+      previousLink.style.display = "none";
+    }
+
+    if (current >= Math.ceil(total / perPage)) {
+      nextButton.setAttribute("disabled", true);
+      nextButton.href = "";
+      nextLink.style.display = "none";
+    }
+  }
+
+  buildLinks();
+</script>

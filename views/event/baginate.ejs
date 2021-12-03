@@ -1,0 +1,229 @@
+<div id="app" class="columns is-multiline">
+  <div class="column is-half">
+    <div>
+      <table
+        class="table is-bordered is-striped is-hoverable is-fullwidth"
+        style="width: 100%"
+      >
+        <tr>
+          <td style="height: 100%; width: 50%" v-for="event in events">
+            <div class="card$card-background-hsl(0, 0%, 0%)">
+              <div class="card-image">
+                <figure class="image is-4by3">
+                  <img :src="event.imageurl" alt="Placeholder image" />
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="media">
+                  <div class="media-left">
+                    <figure class="image is-48x48">
+                      <img
+                        src="https://bulma.io/images/placeholders/96x96.png"
+                        alt="Placeholder image"
+                      />
+                    </figure>
+                  </div>
+                  <div class="media-content">
+                    <a
+                      class="title is-4"
+                      :href="'http://localhost:1337/detail/'+event.id"
+                      >{{ event.eventname }}</a
+                    ><br />
+                    <p class="subtitle is-6">{{ event.organizer }}</p>
+                  </div>
+                </div>
+
+                <div class="content">
+                  <p>{{ event.shortdescription }}</p>
+                  <p>{{ event.eventdate }}</p>
+                  <time>{{ event.starttime }} - </time>
+                  <time>{{ event.endtime }}</time>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <b-pagination
+        :total="total"
+        v-model="current"
+        :range-before="rangeBefore"
+        :range-after="rangeAfter"
+        :order="order"
+        :size="size"
+        :simple="isSimple"
+        :rounded="isRounded"
+        :per-page="perPage"
+        :icon-prev="prevIcon"
+        :icon-next="nextIcon"
+        aria-next-label="Next page"
+        aria-previous-label="Previous page"
+        aria-page-label="Page"
+        aria-current-label="Current page"
+        @change="fetchData()"
+      >
+      </b-pagination>
+    </div>
+  </div>
+  <div class="column is-half">
+    <!--<form id="eventform">-->
+    <form id="eventform">
+      <div class="field">
+        <label class="label">Event Name</label>
+        <div class="control">
+          <input
+            id="formeventnameele"
+            class="input"
+            type="text"
+            name="eventname"
+            placeholder="Text input"
+            required
+          />
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Organizer</label>
+        <div class="control">
+          <div class="select">
+            <select id="formorganizerele" name="organizer">
+              <option>Select dropdown</option>
+              <option value="Music Society">Music Society</option>
+              <option value="Department of Computer Science">
+                Department of Computer Science
+              </option>
+              <option value="Student Union">Student Union</option>
+              <option value="Registry">Registry</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Start Time</label>
+        <div class="control">
+          <input
+            id="formstarttimeele"
+            class="input"
+            type="time"
+            name="starttime"
+            required
+          />
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">End Time</label>
+        <div class="control">
+          <input
+            id="formendtimeele"
+            class="input"
+            type="time"
+            name="endtime"
+            required
+          />
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Venue</label>
+        <div class="control">
+          <div class="select">
+            <select id="formvenueele" name="venue">
+              <option value="2021 Singing Contest">2021 Singing Contest</option>
+              <option value="Career talk(IT industry)">
+                Career talk(IT industry)
+              </option>
+              <option value="Leadership Programme">Leadership Programme</option>
+              <option value="Computer Science Oday">
+                Computer Science Oday
+              </option>
+              <option value="CV Writing Workshop">CV Writing Workshop</option>
+              <option value="Visit to MTR">Visit to MTR</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </form>
+    <!--</form>-->
+    <button class="button is-link" @click="submitform">Submit</button>
+  </div>
+</div>
+
+<script src="https://unpkg.com/vue"></script>
+<!-- Full bundle -->
+<script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+<!-- Individual components -->
+<script src="https://unpkg.com/buefy/dist/components/table"></script>
+<script src="https://unpkg.com/buefy/dist/components/input"></script>
+<script>
+  new Vue({
+    el: "#app",
+    data: {
+      total: parseInt("<%= total %>"),
+      events: [],
+      current: 1,
+      perPage: 2,
+      rangeBefore: 1,
+      rangeAfter: 1,
+      order: "",
+      size: "",
+      isSimple: false,
+      isRounded: false,
+      prevIcon: "chevron-left",
+      nextIcon: "chevron-right",
+      formdata: {
+        eventname: "",
+        organizer: "",
+        starttime: "",
+        endtime: "",
+        venue: "",
+      },
+    },
+    mounted: function () {
+      this.fetchData();
+    },
+    methods: {
+      submitform: async function () {
+        const queryString = new URLSearchParams(
+          new FormData(document.getElementById("eventform"))
+        ).toString();
+        var eventname = document.getElementById("formeventnameele").value;
+        var organizer = document.getElementById("formorganizerele").value;
+        var starttime = document.getElementById("formstarttimeele").value;
+        var endtime = document.getElementById("formendtimeele").value;
+        var venue = document.getElementById("formvenueele").value;
+        console.log(eventname + organizer + starttime + endtime + venue);
+        var response = await fetch(
+          "/event/baginate?perPage=" +
+            this.perPage +
+            "&current=" +
+            this.current +
+            "&eventname=" +
+            eventname +
+            "&organizer=" +
+            organizer +
+            "&starttime=" +
+            starttime +
+            "&endtime=" +
+            endtime +
+            "&venue=" +
+            venue
+        );
+
+        if (response.ok) {
+          this.events = await response.json();
+        } else {
+          alert(response.statusText);
+        }
+      },
+      fetchData: async function () {
+        var response = await fetch(
+          "/event/baginate?perPage=" + this.perPage + "&current=" + this.current
+        );
+
+        if (response.ok) {
+          this.events = await response.json();
+        } else {
+          alert(response.statusText);
+        }
+      },
+    },
+  });
+</script>

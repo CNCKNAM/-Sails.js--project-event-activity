@@ -1,0 +1,44 @@
+<!--paginate.ejs-->
+Registered Events<br />
+
+<div class="columns is-multiline">
+  <% events.forEach( function(event) { %>
+  <div class="column is-one-third">
+    <div class="card$card-background-hsl(0, 0%, 0%)">
+      <div class="card-image">
+        <figure class="image is-4by3">
+          <img src="<%= event.imageurl %>" alt="Placeholder image" />
+        </figure>
+      </div>
+      <div class="card-content">
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-48x48">
+              <img
+                src="https://bulma.io/images/placeholders/96x96.png"
+                alt="Placeholder image"
+              />
+            </figure>
+          </div>
+          <div class="media-content">
+            <a
+              class="title is-4"
+              href="http://localhost:1337/detail/<%= event.id %>"
+              ><%= event.eventname %></a
+            ><br />
+            <p class="subtitle is-6"><%= event.organizer %></p>
+          </div>
+        </div>
+        <div class="content">
+          <p><%= event.shortdescription %></p>
+          <p><%= event.eventdate %></p>
+          <time datetime="<%= event.starttime %>"
+            ><%= event.starttime %> -
+          </time>
+          <time datetime="<%= event.endtime %>"><%= event.endtime %></time>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% }); %>
+</div>

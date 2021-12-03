@@ -1,0 +1,162 @@
+<!--create.ejs-->
+<form action="/event/create" method="post" id="event">
+  <div class="columns">
+    <div
+      class="
+        column
+        is-full-mobile
+        is-half-tablet
+        is-half-desktop
+        is-half-widescreen
+        is-half-fullhd
+      "
+    >
+      <div class="field">
+        <label class="label">Event Name</label>
+        <div class="control">
+          <input
+            class="input"
+            type="text"
+            name="eventname"
+            placeholder="Text input"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Short Description</label>
+        <div class="control">
+          <input
+            class="input"
+            type="text"
+            name="shortdescription"
+            placeholder="Text input"
+            required
+          />
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Long Description</label>
+        <div class="control">
+          <textarea
+            class="textarea"
+            name="longdescription"
+            placeholder="Text input"
+            required
+          ></textarea>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Image Url</label>
+        <div class="control">
+          <input
+            class="input"
+            type="text"
+            name="imageurl"
+            placeholder="Put img Link"
+            required
+          />
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Organizer</label>
+        <div class="control">
+          <div class="select">
+            <select name="organizer">
+              <option>Select dropdown</option>
+              <option value="Music Society">Music Society</option>
+              <option value="Department of Computer Science">
+                Department of Computer Science
+              </option>
+              <option value="Student Union">Student Union</option>
+              <option value="Registry">Registry</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Next Column-->
+    <div
+      class="
+        column
+        is-full-mobile
+        is-half-tablet
+        is-half-desktop
+        is-half-widescreen
+        is-half-fullhd
+      "
+    >
+      <div class="field">
+        <label class="label">Event Date</label>
+        <div class="control">
+          <input class="input" type="date" name="eventdate" required />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Start Time</label>
+        <div class="control">
+          <input class="input" type="time" name="starttime" required />
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">End Time</label>
+        <div class="control">
+          <input class="input" type="time" name="endtime" required />
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Venue</label>
+        <div class="control">
+          <div class="select">
+            <select name="venue">
+              <option>Select dropdown</option>
+              <option value="2021 Singing Contest">2021 Singing Contest</option>
+              <option value="Career talk(IT industry)">
+                Career talk(IT industry)
+              </option>
+              <option value="Leadership Programme">Leadership Programme</option>
+              <option value="Computer Science Oday">
+                Computer Science Oday
+              </option>
+              <option value="CV Writing Workshop">CV Writing Workshop</option>
+              <option value="Visit to MTR">Visit to MTR</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Quota</label>
+        <div class="control">
+          <input
+            class="input"
+            type="number"
+            name="quota"
+            placeholder="Number input"
+            required
+          />
+        </div>
+      </div>
+      <div class="field">
+        <label class="checkbox">
+          <input type="checkbox" name="highlightevent" value="true" />
+          <input
+            type="checkbox"
+            name="highlightevent"
+            value="false"
+            checked
+            hidden
+          />
+          Highlight Event
+        </label>
+      </div>
+      <div class="field">
+        <div class="control">
+          <button class="button is-link" type="submit">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
